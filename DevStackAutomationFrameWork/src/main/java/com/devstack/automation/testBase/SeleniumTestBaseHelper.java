@@ -26,17 +26,18 @@ public class SeleniumTestBaseHelper {
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.get(PropertyHandler.getProperty("url"));
+
     }
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult testResult){
-        if(testResult.getStatus() == ITestResult.FAILURE){
-            ExtentReporterManager.logFail(testResult.getName()+"\n"+testResult.getThrowable().getMessage());
-        } else if (testResult.getStatus() == ITestResult.SKIP) {
-            ExtentReporterManager.logSkip(testResult.getName()+"\n"+testResult.getThrowable().getMessage());
-        }else{
-            ExtentReporterManager.logPass(testResult.getName()+" passed.");
-        }
+//        if(testResult.getStatus() == ITestResult.FAILURE){
+//            ExtentReporterManager.logFail(testResult.getName()+"\n"+testResult.getThrowable().getMessage());
+//        } else if (testResult.getStatus() == ITestResult.SKIP) {
+//            ExtentReporterManager.logSkip(testResult.getName()+"\n"+testResult.getThrowable().getMessage());
+//        }else{
+//            ExtentReporterManager.logPass(testResult.getName()+" passed.");
+//        }
         ThreadLocalWebDriverManager.removeDriver();
     }
 
