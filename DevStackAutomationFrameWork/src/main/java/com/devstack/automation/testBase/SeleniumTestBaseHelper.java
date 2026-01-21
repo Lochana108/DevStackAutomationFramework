@@ -26,7 +26,6 @@ public class SeleniumTestBaseHelper {
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.get(PropertyHandler.getProperty("url"));
-
     }
 
     @AfterMethod(alwaysRun = true)
@@ -38,7 +37,7 @@ public class SeleniumTestBaseHelper {
 //        }else{
 //            ExtentReporterManager.logPass(testResult.getName()+" passed.");
 //        }
-        ThreadLocalWebDriverManager.removeDriver();
+       ThreadLocalWebDriverManager.removeDriver();
     }
 
 //    @AfterSuite(alwaysRun = true)

@@ -15,22 +15,11 @@ import java.time.Duration;
 
 public class SeleniumTestBase {
     protected static WebDriver driver;
-
     protected JavascriptExecutor executor;
 
     public SeleniumTestBase(WebDriver driver) {
         this.driver = ThreadLocalWebDriverManager.getDriver();
         this.executor = (JavascriptExecutor) this.driver;
-    }
-    public void jsClick(By locator){
-        try{
-            WebElement element = waitForVissibilityOfElement(driver.findElement(locator));
-            moveToJsElement(element);
-            executor.executeScript("arguments[0].click();",element);
-            ExtentReporterManager.logPass("JS Clicked in locator "+locator);
-        }catch(Exception e){
-            ExtentReporterManager.logFail("No such element in locator "+ locator);
-        }
     }
 
     public void click(By locator)  {
@@ -44,15 +33,14 @@ public class SeleniumTestBase {
                 ExtentReporterManager.logFail("No such element in locator "+locator+"\n"+e.getMessage());
             }
     }
-    public void jsType(By locator,String inputText){
+    public void jsClick(By locator){
         try{
-            WebElement element = waitForVissibilityOfElement(driver.findElement(locator));
-            moveToJsElement(element);
-            //Thread.sleep(5000);
-            executor.executeScript("arguments[0].value='"+inputText+"';",element);
-            ExtentReporterManager.logPass("Js Typed in ["+inputText+"] "+locator);
-        }catch (Exception e){
-            ExtentReporterManager.logFail("No such element in locator : "+locator+"\n"+e.getMessage());
+        WebElement element = waitForVissibilityOfElement(driver.findElement(locator));
+        moveToJsElement(element);
+        executor.executeScript("arguments[0].click();",element);
+        ExtentReporterManager.logPass("JS clicked in locator :"+locator);
+        } catch (Exception e) {
+            ExtentReporterManager.logFail("No such element in locator :"+locator);
         }
     }
     public void type(By locator,String inputText){    // type on textbox
@@ -67,6 +55,19 @@ public class SeleniumTestBase {
             ExtentReporterManager.logFail("No such element in locator : "+locator+"\n"+e.getMessage());
        }
     }
+    public void jsType(By locator,String inputText){
+        try {
+            WebElement element = waitForVissibilityOfElement(driver.findElement(locator));
+            moveToJsElement(element);
+            executor.executeScript("arguments[0].value='';",element);
+            executor.executeScript("arguments[0].value='"+inputText+"';",element);
+            ExtentReporterManager.logPass("JS Typed [ "+inputText+" ] in locator : "+locator);
+        } catch (Exception e) {
+            ExtentReporterManager.logFail("No such element in locator :"+locator+"\n"+e.getMessage());
+        }
+    }
+
+
     // explicitly wait :  diipu time eka athulatha expected condition eka true wenkn wait wela innwa.
     // fluent wait : custom pollin ekkk denwa.check karanwa pollin wena time eka athulatha conditon eka ture wenawd kiyala.
 
@@ -88,6 +89,7 @@ public class SeleniumTestBase {
     public void moveToJsElement(WebElement locator){
         executor.executeScript("arguments[0].scrollIntoView();",locator);
     }
+
     public boolean isElementPresent(By locator){
         WebElement element = waitForVissibilityOfElement(driver.findElement(locator));
         return element.isDisplayed();

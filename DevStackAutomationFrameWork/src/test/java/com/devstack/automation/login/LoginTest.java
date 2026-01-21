@@ -2,14 +2,18 @@ package com.devstack.automation.login;
 
 import com.devstack.automation.BaseTest;
 import com.devstack.automation.functions.commons.LIB_Common;
+import com.devstack.automation.model.LoginTestData;
+import com.devstack.automation.utils.ExcelHandler;
 import com.devstack.automation.utils.PropertyHandler;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
-    @Test
-    public void loginTest(){
+
+    @Test(dataProvider = "commonDataProvider", dataProviderClass = ExcelHandler.class)
+    public void loginTest(LoginTestData loginTestData){
         LIB_Common common = new LIB_Common(driver);
-        common.bc_login(PropertyHandler.getProperty("username"),PropertyHandler.getProperty("password"));
+        //common.bc_login(PropertyHandler.getProperty("username"),PropertyHandler.getProperty("password"));
+        common.bc_login(loginTestData.getUserName(),loginTestData.getPassword());
     }
 }
  
